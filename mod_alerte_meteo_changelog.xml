@@ -1,0 +1,25 @@
+<changelogs>
+	<changelog>
+		<element>mod_alerte_meteo</element>
+		<type>Module</type>
+		<version>2.0.1</version>
+        <note>
+            <item>Update : 08/01/2022</item>
+        </note>
+        <fix>
+            <item>Class not found Joomla\Module\AlerteMeteo\site\AlerteMeteoHelper</item>
+			<item>Lien vers https://vigilance.meteofrance.fr/</item>
+        </fix>
+	</changelog>
+	<changelog>
+		<element>mod_alerte_meteo</element>
+		<type>Module</type>
+		<version>2.0.0</version>
+        <note>
+            <item>Update : 21/10/2021</item>
+        </note>
+        <addition>
+            <item>Joomla 4.0 version</item>
+        </addition>
+	</changelog>
+</changelogs>
