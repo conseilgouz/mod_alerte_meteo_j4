@@ -1,8 +1,8 @@
 <?php
 /**
 * Alerte Météo
-* Version			: 2.0.2
-* Package			: Joomla 4.x.x
+* Version			: 2.0.3
+* Package			: Joomla 3.10.x and 4.x.x
 * copyright 		: Copyright (C) 2022 ConseilGouz. All rights reserved.
 * license    		: http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
 */

@@ -2,6 +2,17 @@
 	<changelog>
 		<element>mod_alerte_meteo</element>
 		<type>Module</type>
+		<version>2.0.3</version>
+        <note>
+            <item>Update : 28/07/2022</item>
+        </note>
+        <addition>
+            <item>Compatible Joomla 3.10</item>
+        </addition>
+	</changelog>
+	<changelog>
+		<element>mod_alerte_meteo</element>
+		<type>Module</type>
 		<version>2.0.2</version>
         <note>
             <item>Update : 28/07/2022</item>

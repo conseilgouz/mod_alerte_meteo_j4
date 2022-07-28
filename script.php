@@ -1,7 +1,7 @@
 <?php
 /**
-* Alerte Meteo Module  - Joomla 4.0.0 Module 
-* Version			: 2.0.1
+* Alerte Meteo Module  - Joomla 3.10.x and 4.x Module 
+* Version			: 2.0.3
 * Package			: Alerte meteo
 * copyright 		: Copyright (C) 2022 ConseilGouz. All rights reserved.
 * license    		: http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
@@ -16,7 +16,7 @@ use Joomla\CMS\Filesystem\File;
 
 class mod_alerte_meteoInstallerScript
 {
-	private $min_joomla_version      = '4.0.0';
+	private $min_joomla_version      = '3.10.0';
 	private $min_php_version         = '7.2';
 	private $name                    = 'Alerte Meteo';
 	private $exttype                 = 'module';
