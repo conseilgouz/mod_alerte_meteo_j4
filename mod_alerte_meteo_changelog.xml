@@ -2,6 +2,18 @@
 	<changelog>
 		<element>mod_alerte_meteo</element>
 		<type>Module</type>
+		<version>2.0.2</version>
+        <note>
+            <item>Update : 28/07/2022</item>
+        </note>
+        <fix>
+            <item>Serveur Météo France HS => récupération zip</item>
+			<item>Lien vers https://vigilance.meteofrance.fr/ si accent dans département</item>
+        </fix>
+	</changelog>
+	<changelog>
+		<element>mod_alerte_meteo</element>
+		<type>Module</type>
 		<version>2.0.1</version>
         <note>
             <item>Update : 08/01/2022</item>

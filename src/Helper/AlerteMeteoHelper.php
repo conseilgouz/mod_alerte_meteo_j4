@@ -1,7 +1,7 @@
 <?php
 /**
 * Alerte Météo
-* Version			: 2.0.1
+* Version			: 2.0.2
 * Package			: Joomla 4.x.x
 * copyright 		: Copyright (C) 2022 ConseilGouz. All rights reserved.
 * license    		: http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
@@ -19,6 +19,8 @@ class AlerteMeteoHelper
 	private $UPDATE;
 	private $METEO_XML_DETAIL_URL;	
 	private $METEO_MINI_CARTE_GIF;
+	private $METEO_ZIP_FILE;
+	private $METEO_DIR;
 	private $DOM;
 	private $RISQUE = array("","vent","pluie-inondation","orages","inondations","neige-verglas","canicule","grand-froid","avalanches","vagues-submersion","crues");
 	private $DEP;
@@ -28,18 +30,19 @@ class AlerteMeteoHelper
 	public function __construct($params)
 	{
 		$this->application = Factory::getApplication();
-		$this->METEO_XML_DETAIL_URL = "https://vigilance2019.meteofrance.com/data/NXFR33_LFPW_.xml"; // Détail des alertes
-		$this->METEO_MINI_CARTE_GIF = "https://vigilance2019.meteofrance.com/data/QGFR08_LFPW_.gif"; 		
+		$this->METEO_XML_DETAIL_URL = "http://vigilance2019.meteofrance.com/data/NXFR33_LFPW_.xml"; // Détail des alertes
+		$this->METEO_MINI_CARTE_GIF = "http://vigilance2019.meteofrance.com/data/QGFR08_LFPW_.gif"; 
+		$this->METEO_ZIP_FILE = "http://vigilance2019.meteofrance.com/data/vigilance.zip";
+		$this->METEO_DIR = 'media/mod_alerte_meteo';
 		$update = $this->ToUTF8("update");
 		$updateval = $this->ToUTF8(date("d-m-Y H:i"));
 		$this->UPDATE[$update] = $updateval;
 		$this->departement = $params->get('departement', '01');
 	}
 	
-    private function GetData($url)
+    public function GetMeteoDir()
 	{
-		// Récupère le contenu du fichier source des données
-		return file_get_contents($url);
+		return $this->METEO_DIR;
 	}
 
 	public function DonneesVigilance()
@@ -91,11 +94,32 @@ class AlerteMeteoHelper
 	}
 	private function MetropoleDetailFormat()
 	{
-		// Lit et met en forme les données pour le format de sortie
-		if (($xmlfile = $this->GetData($this->METEO_XML_DETAIL_URL)) == false) {
-			$this->application->enqueueMessage(Text::_('SOME_ERROR_OCCURRED'), 'error');
+		$local_zip_file = $this->METEO_DIR.'/tmp_file.zip';
+		if (!is_dir($this->METEO_DIR)) {
+			mkdir($this->METEO_DIR, 0755, true);
 		}
-		$xml = new \SimpleXMLElement($xmlfile);
+		// delete old files
+		$files = glob($this->METEO_DIR.'/*'); //get all file names
+		foreach($files as $file){
+			if(is_file($file))
+				unlink($file); //delete file
+		}
+		// get zip file
+		if (!copy($this->METEO_ZIP_FILE, $local_zip_file)) {
+			$this->application->enqueueMessage('Erreur sur la récupération des informations météo', 'Erreur sur le module Alerte m&eacute;t&eacute;o');
+			return false;
+		}
+		// extract zip file
+		$zip = new \ZipArchive();
+		if ($zip->open($local_zip_file, \ZIPARCHIVE::CREATE)) {
+			for ($i = 0; $i < $zip->numFiles; $i++) {
+				$zip->extractTo($this->METEO_DIR, array($zip->getNameIndex($i)));
+			}
+			$zip->close();
+			unlink($local_zip_file);
+		}
+		// get global alerte file
+		$xml = @simplexml_load_file($this->METEO_DIR.'/NXFR33_LFPW_.xml');
 		
 		foreach ($xml->DV as $line)
 		{	

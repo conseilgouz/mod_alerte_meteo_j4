@@ -2,13 +2,13 @@
 <extension type="module" version="4.0" client="site" method="upgrade">
 	<name>Alerte Meteo</name>
 	<author>ConseilGouz</author>
-	<creationDate>January 2022</creationDate>
+	<creationDate>July 2022</creationDate>
 	<copyright>Copyright (C) 2022 ConseilGouz. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>pascal.leconte@conseilgouz.com</authorEmail>
 	<authorUrl>www.conseilgouz.com</authorUrl>
-	<version>2.0.1</version>
-	<description>Affichage des alertes meteo (version 2.0.1)</description>
+	<version>2.0.2</version>
+	<description>Affichage des alertes meteo (version 2.0.2)</description>
 	<namespace path="src">ConseilGouz\Module\AlerteMeteo</namespace>
 	<scriptfile>script.php</scriptfile>
 	<changelogurl>https://www.conseilgouz.com/updates/mod_alerte_meteo_changelog.xml</changelogurl>
