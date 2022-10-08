@@ -1,7 +1,7 @@
 <?php
 /**
-* Alerte Météo
-* Version			: 2.0.2
+* Alerte MÃ©tÃ©o
+* Version			: 2.0.4
 * Package			: Joomla 4.x.x
 * copyright 		: Copyright (C) 2022 ConseilGouz. All rights reserved.
 * license    		: http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
@@ -30,7 +30,7 @@ class AlerteMeteoHelper
 	public function __construct($params)
 	{
 		$this->application = Factory::getApplication();
-		$this->METEO_XML_DETAIL_URL = "http://vigilance2019.meteofrance.com/data/NXFR33_LFPW_.xml"; // Détail des alertes
+		$this->METEO_XML_DETAIL_URL = "http://vigilance2019.meteofrance.com/data/NXFR33_LFPW_.xml"; // DÃ©tail des alertes
 		$this->METEO_MINI_CARTE_GIF = "http://vigilance2019.meteofrance.com/data/QGFR08_LFPW_.gif"; 
 		$this->METEO_ZIP_FILE = "http://vigilance2019.meteofrance.com/data/vigilance.zip";
 		$this->METEO_DIR = 'media/mod_alerte_meteo';
@@ -50,10 +50,10 @@ class AlerteMeteoHelper
 		try {
 			$this->MetropoleDetailFormat();
 		} catch (Exception $e) {
-			$this->application->enqueueMessage('Erreur sur la récupération des informations météo', 'Erreur sur le module Alerte m&eacute;t&eacute;o');
+			$this->application->enqueueMessage('Erreur sur la rÃ©cupÃ©ration des informations mÃ©tÃ©o', 'Erreur sur le module Alerte m&eacute;t&eacute;o');
 			return false;
 		}
-		// Fusion des tableaux d'entête et de données
+		// Fusion des tableaux d'entÃªte et de donnÃ©es
 		$this->SortAndMergeHeaderAndData();
 		$root = $this->ToUTF8("vigilance");
 		$arr = $this->DATA;
@@ -65,7 +65,7 @@ class AlerteMeteoHelper
 	
 	private function SortAndMergeHeaderAndData()
 	{
-		// Fusion des tableaux entete et données après tri du tableau des données
+		// Fusion des tableaux entete et donnï¿½es aprÃ¨s tri du tableau des donnÃ©es
 		$this->DataSort();
 		$this->DATA = $this->DETAIL;
 	}
@@ -106,7 +106,7 @@ class AlerteMeteoHelper
 		}
 		// get zip file
 		if (!copy($this->METEO_ZIP_FILE, $local_zip_file)) {
-			$this->application->enqueueMessage('Erreur sur la récupération des informations météo', 'Erreur sur le module Alerte m&eacute;t&eacute;o');
+			$this->application->enqueueMessage('Erreur sur la rï¿½cupï¿½ration des informations mï¿½tï¿½o', 'Erreur sur le module Alerte m&eacute;t&eacute;o');
 			return false;
 		}
 		// extract zip file
@@ -139,7 +139,7 @@ class AlerteMeteoHelper
 				}
 			}
 		}
-		$this->CreateMetropoleHeader($xml->entetevigilance);
+		$this->CreateMetropoleHeader($xml->EV);
 	}
 	
 	private function AddDETAIL($data)
@@ -210,7 +210,7 @@ class AlerteMeteoHelper
 	
 	private function Filter($data)
 	{
-		// Filtrage des données (depts 99, 2A10, 4010, 3310, etc..) du fichier source de métropole
+		// Filtrage des donnÃ©es (depts 99, 2A10, 4010, 3310, etc..) du fichier source de mÃ©tropole
 		if (((strlen ($data['dep']) == 2) && ($data['dep'] < 96)) || ($data['dep'] == 99)) 
 			return 'dep';
 		if ((strlen($data['dep']) == 4) && (strcasecmp(substr($data['dep'],-2),"10") == 0))

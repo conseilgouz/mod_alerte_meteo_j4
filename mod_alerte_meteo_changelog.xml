@@ -2,6 +2,20 @@
 	<changelog>
 		<element>mod_alerte_meteo</element>
 		<type>Module</type>
+		<version>2.0.4</version>
+        <note>
+            <item>Update : 08/10/2022</item>
+        </note>
+        <fix>
+            <item>Suppress PHP 8.1 notices</item>
+        </fix>
+        <addition>
+            <item>Move update/changelog files to github</item>
+        </addition>
+	</changelog>
+	<changelog>
+		<element>mod_alerte_meteo</element>
+		<type>Module</type>
 		<version>2.0.3</version>
         <note>
             <item>Update : 28/07/2022</item>

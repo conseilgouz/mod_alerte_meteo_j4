@@ -2,16 +2,16 @@
 <extension type="module" version="3.10" client="site" method="upgrade">
 	<name>Alerte Meteo</name>
 	<author>ConseilGouz</author>
-	<creationDate>July 2022</creationDate>
+	<creationDate>October 2022</creationDate>
 	<copyright>Copyright (C) 2022 ConseilGouz. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>pascal.leconte@conseilgouz.com</authorEmail>
 	<authorUrl>www.conseilgouz.com</authorUrl>
-	<version>2.0.3</version>
-	<description>Affichage des alertes meteo (version 2.0.2)</description>
+	<version>2.0.4</version>
+	<description>Affichage des alertes meteo (version 2.0.4)</description>
 	<namespace path="src">ConseilGouz\Module\AlerteMeteo</namespace>
 	<scriptfile>script.php</scriptfile>
-	<changelogurl>https://www.conseilgouz.com/updates/mod_alerte_meteo_changelog.xml</changelogurl>
+	<changelogurl>https://raw.githubusercontent.com/conseilgouz/mod_alerte_meteo_j4/master/mod_alerte_meteo_changelog.xml</changelogurl>	
 	<files>
 		<filename module="mod_alerte_meteo">mod_alerte_meteo.php</filename>
 		<folder>tmpl</folder>
@@ -208,7 +208,7 @@
 			</fields>
 	</config>
 	<updateservers>
-	<server type="extension" name="alerte meteo" priority="1">https://www.conseilgouz.com/updates/mod_alerte_meteo_update.xml</server>
+	<server type="extension" name="alerte meteo" priority="1">https://raw.githubusercontent.com/conseilgouz/updates_github/master/mod_alerte_meteo_update.xml</server>
 	</updateservers>
 	
 </extension>

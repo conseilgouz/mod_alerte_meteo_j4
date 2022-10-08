@@ -1,7 +1,7 @@
 <?php
 /**
 * Alerte Météo
-* Version			: 2.0.3
+* Version			: 2.0.4
 * Package			: Joomla 3.10.x and 4.x.x
 * copyright 		: Copyright (C) 2022 ConseilGouz. All rights reserved.
 * license    		: http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
@@ -11,9 +11,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Version;
 use ConseilGouz\Module\AlerteMeteo\Site\Helper\AlerteMeteoHelper;
-
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
-
+$moduleclass_sfx = "";
+if ($params->get('moduleclass_sfx')) {
+	$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
+}
 $j = new Version();
 $version=substr($j->getShortVersion(), 0,1); 
 if ($version != "4") { // Joomla 3.10 ?

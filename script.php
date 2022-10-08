@@ -1,7 +1,7 @@
 <?php
 /**
 * Alerte Meteo Module  - Joomla 3.10.x and 4.x Module 
-* Version			: 2.0.3
+* Version			: 2.0.4
 * Package			: Alerte meteo
 * copyright 		: Copyright (C) 2022 ConseilGouz. All rights reserved.
 * license    		: http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
@@ -87,23 +87,20 @@ class mod_alerte_meteoInstallerScript
 				File::delete($file);
 			}
 		}
-		/*$j = new Version();
-		$version=$j->getShortVersion(); 
-		$version_arr = explode('.',$version);
-		if (($version_arr[0] == "4") || (($version_arr[0] == "3") && ($version_arr[1] == "10"))) {
-			// Delete 3.9 and older language files
-			$langFiles = [
-				sprintf("%s/language/en-GB/en-GB.mod_%s.ini", JPATH_SITE, $this->extname),
-				sprintf("%s/language/en-GB/en-GB.mod_%s.sys.ini", JPATH_SITE, $this->extname),
-				sprintf("%s/language/fr-FR/fr-FR.mod_%s.ini", JPATH_SITE, $this->extname),
-				sprintf("%s/language/fr-FR/fr-FR.mod_%s.sys.ini", JPATH_SITE, $this->extname),
-			];
-			foreach ($langFiles as $file) {
-				if (@is_file($file)) {
-					File::delete($file);
-				}
-			}
-		}*/
+		// remove obsolete update sites
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->delete('#__update_sites')
+			->where($db->quoteName('location') . ' like "%432473037d.url-de-test.ws/%"');
+		$db->setQuery($query);
+		$db->execute();
+		// Module is now on Github
+		$query = $db->getQuery(true)
+			->delete('#__update_sites')
+			->where($db->quoteName('location') . ' like "%conseilgouz.com/updates/mod_'.$this->extname.'%"');
+		$db->setQuery($query);
+		$db->execute();
+		
 	}
 
 	// Check if Joomla version passes minimum requirement
