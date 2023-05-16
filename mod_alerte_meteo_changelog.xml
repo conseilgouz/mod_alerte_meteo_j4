@@ -2,6 +2,18 @@
 	<changelog>
 		<element>mod_alerte_meteo</element>
 		<type>Module</type>
+		<version>2.0.5</version>
+        <note>
+            <item>Update : 16/05/2023</item>
+        </note>
+        <fix>
+            <item>PHP 8.2 : utf8_encode deprecated</item>
+            <item>fichier vigilance2019.meteofrance.com/data/vigilance.zip non dispo</item>
+        </fix>
+	</changelog>
+	<changelog>
+		<element>mod_alerte_meteo</element>
+		<type>Module</type>
 		<version>2.0.4</version>
         <note>
             <item>Update : 08/10/2022</item>
