@@ -1,7 +1,7 @@
 <?php
 /**
 * Alerte Météo
-* Version			: 2.0.5
+* Version			: 2.0.6
 * Package			: Joomla 4.x
 * copyright 		: Copyright (C) 2023 ConseilGouz. All rights reserved.
 * license    		: http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
@@ -27,13 +27,15 @@ class AlerteMeteoHelper
 	private $DETAIL;
     private $application;
 	private $departement;
+	private $token,$response;
     
 	public function __construct($params)
 	{
 		$this->application = Factory::getApplication();
-		$this->METEO_XML_DETAIL_URL = "https://vigilance2019.meteofrance.com/data/NXFR33_LFPW_.xml"; // Détail des alertes
-		$this->METEO_MINI_CARTE_GIF = "https://vigilance2019.meteofrance.com/data/QGFR08_LFPW_.gif"; 
-		$this->METEO_ZIP_FILE = "https://vigilance2019.meteofrance.com/data/vigilance.zip";
+		$this->METEO_XML_DETAIL_URL = "https://public-api.meteofrance.fr/public/DPVigilance/v1/cartevigilance/encours"; // Détail des alertes
+		$this->token = "eyJ4NXQiOiJZV0kxTTJZNE1qWTNOemsyTkRZeU5XTTRPV014TXpjek1UVmhNbU14T1RSa09ETXlOVEE0Tnc9PSIsImtpZCI6ImdhdGV3YXlfY2VydGlmaWNhdGVfYWxpYXMiLCJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJwYXNjYWwubGVjb250ZUBjYXJib24uc3VwZXIiLCJhcHBsaWNhdGlvbiI6eyJvd25lciI6InBhc2NhbC5sZWNvbnRlIiwidGllclF1b3RhVHlwZSI6bnVsbCwidGllciI6IlVubGltaXRlZCIsIm5hbWUiOiJBbGVydGVNZXRlb0o0IiwiaWQiOjE5NDMsInV1aWQiOiI0ZjIwOWNlZi1iYWQyLTRmMjktODcwNS0yYzhkMjUyOThiNjcifSwiaXNzIjoiaHR0cHM6XC9cL3BvcnRhaWwtYXBpLm1ldGVvZnJhbmNlLmZyOjQ0M1wvb2F1dGgyXC90b2tlbiIsInRpZXJJbmZvIjp7IjYwUmVxUGFyTWluIjp7InRpZXJRdW90YVR5cGUiOiJyZXF1ZXN0Q291bnQiLCJncmFwaFFMTWF4Q29tcGxleGl0eSI6MCwiZ3JhcGhRTE1heERlcHRoIjowLCJzdG9wT25RdW90YVJlYWNoIjp0cnVlLCJzcGlrZUFycmVzdExpbWl0IjowLCJzcGlrZUFycmVzdFVuaXQiOiJzZWMifX0sImtleXR5cGUiOiJTQU5EQk9YIiwic3Vic2NyaWJlZEFQSXMiOlt7InN1YnNjcmliZXJUZW5hbnREb21haW4iOiJjYXJib24uc3VwZXIiLCJuYW1lIjoiRG9ubmVlc1B1YmxpcXVlc1ZpZ2lsYW5jZSIsImNvbnRleHQiOiJcL3B1YmxpY1wvRFBWaWdpbGFuY2VcL3YxIiwicHVibGlzaGVyIjoiYWRtaW4iLCJ2ZXJzaW9uIjoidjEiLCJzdWJzY3JpcHRpb25UaWVyIjoiNjBSZXFQYXJNaW4ifV0sImV4cCI6MTc3ODkwNTA1NSwiaWF0IjoxNjg0Mjk3MDU1LCJqdGkiOiJkZjdkYmNhMy00OTE3LTQ4NWYtYTc0My01YjM2NTNmNzBjOTcifQ==.IdpAqX6PNDnZ1WjZ9rv0kYkILUp8pbiUbIykLdVNzi14JP7CsoBYxVY9THuc6PQ-g58OrS_im3m4yEVQA51IfQ2afp3Y8f353aEpfmmQ9addBk6xVrAJs_Y_nC2rmSCsRNMd6HQFUVfMjHM17_m-fhbfNnRy5GsUypB_SqSq4MG_Jcd7H203QyFcsRU1ZoxDM4HzsnifueNI2cJ-znAnebhnpN1tcFqiJFTD9Xx65M-8IECBLiA7G_-Wi3B3XP5d4FiIgqGuNe6J9J4Xmo5DNZCiK_1hAoqQOjeCMXSSG3ceu_3NZ08_ZE6GIDHLM3AUiNhnwwlpUxAIsOgbTUlwvA==";
+		$this->METEO_MINI_CARTE_GIF = "https://public-api.meteofrance.fr/public/DPVigilance/v1/vignettenationale-J/encours"; 
+		// $this->METEO_ZIP_FILE = "https://vigilance2019.meteofrance.com/data/vigilance.zip";
 		$this->METEO_DIR = 'media/mod_alerte_meteo';
 		$update = $this->ToUTF8("update");
 		$updateval = $this->ToUTF8(date("d-m-Y H:i"));
@@ -49,8 +51,10 @@ class AlerteMeteoHelper
 	public function DonneesVigilance()
 	{
 		try {
-			$this->MetropoleDetailFormat();
-		} catch (Exception $e) {
+		    if (!$this->MetropoleDetailFormat()) {
+		        return false;
+		    }
+		} catch (\Exception $e) {
 			$this->application->enqueueMessage('Erreur sur la récupération des informations météo', 'Erreur sur le module Alerte m&eacute;t&eacute;o');
 			return false;
 		}
@@ -71,14 +75,14 @@ class AlerteMeteoHelper
 		$this->DATA = $this->DETAIL;
 	}
 		
-	private function CreateMetropoleHeader($array_data)
+	private function CreateMetropoleHeader($json)
 	{
 		$label = $this->ToUTF8("bulletin_metropole");
 		$this->HEADER[$label] = array(
-									$this->ToUTF8("creation") => $this->ToUTF8($this->ConvertLongDateToFRDate($array_data['dateinsert'])),
-									$this->ToUTF8("mise_a_jour") => $this->ToUTF8($this->ConvertLongDateToFRDate($array_data['daterun'])),
-									$this->ToUTF8("validite") => $this->ToUTF8($this->ConvertLongDateToFRDate($array_data['dateprevue'])),
-									$this->ToUTF8("version") => $this->ToUTF8($array_data['noversion'])
+									$this->ToUTF8("creation") => $this->ToUTF8($json->meta->generation_timestamp),
+									$this->ToUTF8("mise_a_jour") => $this->ToUTF8($json->meta->product_datetime),
+		    $this->ToUTF8("validite") => $this->ToUTF8($json->meta->product_datetime),
+									$this->ToUTF8("version") => $this->ToUTF8($json->product->version_vigilance)
 									);
 	}
 	
@@ -93,21 +97,52 @@ class AlerteMeteoHelper
 				
 		return $day."-".$month."-".$year." ".$hour.":".$min;
 	}
-	private function check_remote_file($file) {
-				//  zip file
-		$ch = curl_init($file);
-		curl_setopt($ch, CURLOPT_NOBODY, true);
-		curl_exec($ch);
-		$responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		curl_close($ch);
-		// Check the response code
-		if($responseCode == 200){
-			return true;
-		}else{
+	private function get_curl($url) {
+		if (extension_loaded("curl")) {
+			$getContentCode = $this->getCurlContent($url);
+			if ($getContentCode != 200) { 
+				$getContentCode = $this->getHttpContent($url, $getContentCode);
+				}
+		} else {
+			$getContentCode = $this->getHttpContent($url, $getContentCode);
+		}
+		if($getContentCode == 200) { // pas d'erreur
+		    $content = $this->response;
+		    if ($url == $this->METEO_MINI_CARTE_GIF) {
+		          $fp = fopen($this->METEO_DIR.'/QGFR08_LFPW_.gif','x');
+		          fwrite($fp, $content);
+		          fclose($fp);
+		          return true;
+		    }
+		    $xml = json_decode($content);
+		    return $xml;
+		} else {
 			return false;
-		}		
-
+		}
+		
 	}
+	private function getCurlContent($url)
+	{
+	    $curl = curl_init();
+	    curl_setopt($curl, CURLOPT_HTTPHEADER, array('Accept: application/json','apikey: '.$this->token));
+	    curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+	    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
+	    curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+	    curl_setopt($curl, CURLOPT_URL, $url);
+	    $this->response = curl_exec($curl);
+	    $infos = curl_getinfo($curl);
+	    curl_close ($curl);
+	    return $infos['http_code'];
+	}
+	private function getHttpContent($url, $infos)
+	{
+	    if ($this->response = @file_get_contents($url)) {
+	        return 200;
+	    }
+	    $infos = $http_response_header[0];
+	    return '2000'.' '.$infos;
+	}
+	
 	private function MetropoleDetailFormat()
 	{
 		$local_zip_file = $this->METEO_DIR.'/tmp_file.zip';
@@ -120,65 +155,60 @@ class AlerteMeteoHelper
 			if(is_file($file))
 				unlink($file); //delete file
 		}
-		if (!$this->check_remote_file($this->METEO_ZIP_FILE, $local_zip_file)) {
-			if (!copy($this->METEO_XML_DETAIL_URL, $this->METEO_DIR.'/NXFR33_LFPW_.xml')) {
-				$this->application->enqueueMessage('Erreur sur la récupération des informations météo', 'Erreur sur le module Alerte m&eacute;t&eacute;o');
-				return false;
-			}
-			copy($this->METEO_MINI_CARTE_GIF, $this->METEO_DIR.'/QGFR08_LFPW_.gif');
-		} else {// extract zip file
-			$zip = new \ZipArchive();
-			if ($zip->open($local_zip_file, \ZIPARCHIVE::CREATE)) {
-				for ($i = 0; $i < $zip->numFiles; $i++) {
-					$zip->extractTo($this->METEO_DIR, array($zip->getNameIndex($i)));
-				}
-				$zip->close();
-				unlink($local_zip_file);
-			}
+		$url = $this->METEO_XML_DETAIL_URL;
+		$json = $this->get_curl($url);
+		if (!$json) {
+			$this->application->enqueueMessage('Erreur sur la récupération des informations météo', 'Erreur sur le module Alerte m&eacute;t&eacute;o');
+			return false;
 		}
-		// get global alerte file
-		$xml = @simplexml_load_file($this->METEO_DIR.'/NXFR33_LFPW_.xml');
+		// get image
+		$url = $this->METEO_MINI_CARTE_GIF;
+		$ret = $this->get_curl($url);
+		if (!$ret) {
+		    $this->application->enqueueMessage('Erreur sur la récupération de l\'image météo', 'Erreur sur le module Alerte m&eacute;t&eacute;o');
+		    return false;
+		}
 		
-		foreach ($xml->DV as $line)
+		foreach ($json->product->periods[0]->timelaps->domain_ids as $line)
 		{	
 			$type = $this->Filter($line);
 			if (strcasecmp($type,"dep") == 0)
 			{
-				$this->DEP = $this->ToUTF8("dep_".$line['dep']);
-				if ($line['dep'] == $this->departement) {
+				$this->DEP = $this->ToUTF8("dep_".$line->domain_id);
+				if ($line->domain_id == $this->departement) {
 					$this->AddDETAIL($line);
 				}
 			}
 			if (strcasecmp($type,"cote") == 0)
 			{
-				$this->DEP = $this->ToUTF8("cote_".substr($line['dep'],0,2));
-				if ($line['dep'] == $this->departement) {
+				$this->DEP = $this->ToUTF8("cote_".substr($line->domain_id,0,2));
+				if ($line->domain_id == $this->departement) {
 					$this->AddDETAIL($line);
 				}
 			}
 		}
-		$this->CreateMetropoleHeader($xml->EV);
+        $this->CreateMetropoleHeader($json);
+		return true;
 	}
 	
 	private function AddDETAIL($data)
 	{
-		$NiveauMax = $data['coul'];
-        $risque = "";
-		if ($NiveauMax > 1) 
-		{
-			$risqueArr = $data->risque;
-			foreach ($risqueArr as $r) {
-				$risque = $this->RisqueConcat($this->ToUTF8($r['val']),$risque);
-			}
-		}
-		else
-			$risque = "RAS"; 
-
+	    $risque = "";
+	    $niveauMax = 1;
+	    foreach($data->phenomenon_items as $item) {
+	        $niveau = $item->phenomenon_max_color_id;
+            if ($niveau > 1) {
+                if ($niveau > $niveauMax ) $niveauMax = $niveau;
+                $risque = $this->RisqueConcat($item->phenomenon_id,$risque);
+		     }
+	    }
+	    if ($risque == "") $risque = "RAS";
 		$this->DETAIL[] = array (
-				$this->ToUTF8("niveau") => $this->ToUTF8($NiveauMax), 
-				$this->ToUTF8("alerte") => $this->ToUTF8($this->ConvertLevelToColor($NiveauMax)),
+				$this->ToUTF8("niveau") => $this->ToUTF8($niveauMax), 
+				$this->ToUTF8("alerte") => $this->ToUTF8($this->ConvertLevelToColor($niveauMax)),
 				$this->ToUTF8("risque") => $risque,
-			);
+		);
+	    
 	}
 		
 	private function RisqueConvert($risque)
@@ -229,9 +259,9 @@ class AlerteMeteoHelper
 	private function Filter($data)
 	{
 		// Filtrage des données (depts 99, 2A10, 4010, 3310, etc..) du fichier source de métropole
-		if (((strlen ($data['dep']) == 2) && ($data['dep'] < 96)) || ($data['dep'] == 99)) 
+		if (((strlen ($data->domain_id) == 2) && ($data->domain_id < 96)) || ($data->domain_id == 99)) 
 			return 'dep';
-		if ((strlen($data['dep']) == 4) && (strcasecmp(substr($data['dep'],-2),"10") == 0))
+		if ((strlen($data->domain_id) == 4) && (strcasecmp(substr($data->domain_id,-2),"10") == 0))
 			return 'cote';
 		return false;
 	}

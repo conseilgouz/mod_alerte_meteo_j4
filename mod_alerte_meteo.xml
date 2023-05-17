@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>pascal.leconte@conseilgouz.com</authorEmail>
 	<authorUrl>www.conseilgouz.com</authorUrl>
-	<version>2.0.5</version>
+	<version>2.0.6</version>
 	<description>Affichage des alertes meteo (version 2.0.5)</description>
 	<namespace path="src">ConseilGouz\Module\AlerteMeteo</namespace>
 	<scriptfile>script.php</scriptfile>

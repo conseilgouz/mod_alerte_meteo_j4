@@ -2,6 +2,17 @@
 	<changelog>
 		<element>mod_alerte_meteo</element>
 		<type>Module</type>
+		<version>2.0.6</version>
+        <note>
+            <item>Update : 17/05/2023</item>
+        </note>
+        <fix>
+            <item>fin des fichiers vigilance2019, passage par API</item>
+        </fix>
+	</changelog>
+	<changelog>
+		<element>mod_alerte_meteo</element>
+		<type>Module</type>
 		<version>2.0.5</version>
         <note>
             <item>Update : 16/05/2023</item>
