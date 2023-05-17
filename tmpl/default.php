@@ -1,9 +1,9 @@
 <?php
 /**
 * Alerte Météo
-* Version			: 2.0.3
+* Version			: 2.0.8
 * Package			: Joomla 3.10.x and 4.x.x
-* copyright 		: Copyright (C) 2022 ConseilGouz. All rights reserved.
+* copyright 		: Copyright (C) 2023 ConseilGouz. All rights reserved.
 * license    		: http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
 */
 
@@ -59,7 +59,7 @@ if  (($aff_minicarte == 'true') || (($aff_minicarte == 'alert') && (!empty($aler
 		$url = $meteo->GetMeteoDir()."/QGFR08_LFPW_.gif";
 ?>
 <p class="alerte_meteo_minicarte">
-   <a href="//vigilance.meteofrance.com/" target="_blank" rel="noopener noreferrer"><img src = "<?php echo $url;?>" alt="Mini carte" style="display: block;margin-left: auto;margin-right: auto;"></a>
+   <a href="//vigilance.meteofrance.com/" target="_blank" rel="noopener noreferrer"><img src = "<?php echo $url;?>" alt="Mini carte" style="display: block;margin-left: auto;margin-right: auto;max-width:<?php echo $params->get('max-width', '8em');?>em"></a>
 </p>
 <?php } ?>
 <?php if (!empty($alerte)) { ?>
