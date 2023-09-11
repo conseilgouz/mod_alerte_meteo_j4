@@ -2,6 +2,17 @@
 	<changelog>
 		<element>mod_alerte_meteo</element>
 		<type>Module</type>
+		<version>2.2.1</version>
+        <note>
+            <item>Update : 11/09/2023</item>
+        </note>
+        <fix>
+            <item>No de version affichée incorrecte</item>
+        </fix>
+	</changelog>
+	<changelog>
+		<element>mod_alerte_meteo</element>
+		<type>Module</type>
 		<version>2.2.0</version>
         <note>
             <item>Update : 11/09/2023</item>
