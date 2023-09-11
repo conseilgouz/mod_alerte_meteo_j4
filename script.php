@@ -1,7 +1,7 @@
 <?php
 /**
-* Alerte Meteo Module  - Joomla 3.10.x and 4.x Module 
-* Version			: 2.0.4
+* Alerte Meteo Module  - Joomla 3.10.x/4.x/5.x Module 
+* Version			: 2.2.0
 * Package			: Alerte meteo
 * copyright 		: Copyright (C) 2022 ConseilGouz. All rights reserved.
 * license    		: http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
@@ -10,14 +10,14 @@
 defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\Folder;
+use Joomla\Filesystem\Folder;
 use Joomla\CMS\Version;
-use Joomla\CMS\Filesystem\File;
+use Joomla\Filesystem\File;
 
 class mod_alerte_meteoInstallerScript
 {
 	private $min_joomla_version      = '3.10.0';
-	private $min_php_version         = '7.2';
+	private $min_php_version         = '7.4';
 	private $name                    = 'Alerte Meteo';
 	private $exttype                 = 'module';
 	private $extname                 = 'alerte_meteo';
@@ -27,8 +27,6 @@ class mod_alerte_meteoInstallerScript
 	public function __construct()
 	{
 		$this->dir = __DIR__;
-		$this->lang = Factory::getLanguage();
-		$this->lang->load($this->extname);
 	}
 
     function preflight($type, $parent)
@@ -138,7 +136,7 @@ class mod_alerte_meteoInstallerScript
 	}
 	private function uninstallInstaller()
 	{
-		if ( ! JFolder::exists(JPATH_PLUGINS . '/system/' . $this->installerName)) {
+		if ( ! is_dir(JPATH_PLUGINS . '/system/' . $this->installerName)) {
 			return;
 		}
 		$this->delete([
