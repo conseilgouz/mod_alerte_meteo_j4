@@ -1,15 +1,15 @@
 <?php
 /**
 * Alerte Météo
-* Version			: 2.1.0
-* Package			: Joomla 3.10.x and 4.x.x
-* copyright 		: Copyright (C) 2023 ConseilGouz. All rights reserved.
-* license    		: http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+* Package			: Joomla 4.x/5.x
+* copyright 		: Copyright (C) 2024 ConseilGouz. All rights reserved.
+* license    		: https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL
 */
 
 defined('_JEXEC') or die;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Uri\Uri;
+use ConseilGouz\Module\AlerteMeteo\Site\Helper\AlerteMeteoHelper;
 
 $alerte = "";
 $niveau ="";
@@ -24,7 +24,15 @@ $departement = $params->get('departement', '01');
 $aff_minicarte = $params->get('aff_minicarte', 'false');
 $aff_vide = $params->get('aff_vide', 'false');
 
-// récupération des alertes du département
+$moduleclass_sfx = "";
+if ($params->get('moduleclass_sfx')) {
+	$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
+}
+
+$meteo = new AlerteMeteoHelper($params,"Etats de vigilance météorologique des départements (métropole et outre-mer) et territoires d'outre-mer français");
+$alertes = $meteo->DonneesVigilance();
+
+// affichage des alertes du département
 if (!empty($alertes)) {
     $balerte = false;
 	$bcrue = false;
