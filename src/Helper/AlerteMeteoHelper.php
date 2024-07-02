@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\Folder;
 
 class AlerteMeteoHelper
 {
@@ -73,6 +74,26 @@ class AlerteMeteoHelper
         return $this->OutputEncodeJSON();
     }
 
+    public function getImage()
+    {
+        $img = "QGFR08_LFPW_.gif";
+        $fnames = (Folder::files($this->METEO_DIR, $img));
+        $fname = array_pop($fnames);
+        if($fname) { // img ok : exit
+            return $this->METEO_DIR.'/'.$img;
+        }
+        // get image
+        $url = $this->METEO_MINI_CARTE_GIF;
+        $ret = $this->get_curl($url);
+        if (!$ret) {
+            $this->application->enqueueMessage('Erreur sur la récupération de l\'image météo', 'Erreur sur le module Alerte m&eacute;t&eacute;o');
+            return false;
+        } else {
+            return $this->METEO_DIR.'/'.$img;
+        }
+
+    }
+
     private function SortAndMergeHeaderAndData()
     {
         // Fusion des tableaux entete et donn�es après tri du tableau des données
@@ -122,6 +143,9 @@ class AlerteMeteoHelper
                 return true;
             }
             $xml = json_decode($content);
+            $fp = fopen($this->METEO_DIR.'/alertes.xml', 'x');
+            fwrite($fp, $content);
+            fclose($fp);
             return $xml;
         } else {
             return false;
@@ -149,34 +173,57 @@ class AlerteMeteoHelper
         $infos = $http_response_header[0];
         return '2000'.' '.$infos;
     }
-
-    private function MetropoleDetailFormat()
+    private function check_timestamp()
     {
-        $local_zip_file = $this->METEO_DIR.'/tmp_file.zip';
         if (!is_dir($this->METEO_DIR)) {
             mkdir($this->METEO_DIR, 0755, true);
         }
-        // delete old files
-        $files = glob($this->METEO_DIR.'/*'); //get all file names
-        foreach($files as $file) {
-            if(is_file($file)) {
-                unlink($file);
-            } //delete file
-        }
-        $url = $this->METEO_XML_DETAIL_URL;
-        $json = $this->get_curl($url);
-        if (!$json) {
-            $this->application->enqueueMessage('Erreur sur la récupération des informations météo', 'Erreur sur le module Alerte m&eacute;t&eacute;o');
-            return false;
-        }
-        // get image
-        $url = $this->METEO_MINI_CARTE_GIF;
-        $ret = $this->get_curl($url);
-        if (!$ret) {
-            $this->application->enqueueMessage('Erreur sur la récupération de l\'image météo', 'Erreur sur le module Alerte m&eacute;t&eacute;o');
+        // check timestamp : if < 1 hour, use files, else recreate files
+        $chkfile = 'alerte_checkfile';
+        $fnames = (Folder::files($this->METEO_DIR, $chkfile.'.*'));
+        $fname = array_pop($fnames);
+        if(!$fname) { // no checkfile : exit
             return false;
         }
 
+        $backuptime = substr($fname, -10, 10);
+        $time = time();
+        $limit = strtotime(date('Y-m-d H:i:s', $time));
+        if ($limit > $backuptime) { // timestamp > limit : get infos from curl
+            return false;
+        }
+        $content = file_get_contents($this->METEO_DIR.'/alertes.xml');
+        $json = json_decode($content);
+        return $json;
+
+    }
+    private function MetropoleDetailFormat()
+    {
+        if (!$json = $this->check_timestamp()) { // time limit exceeded : get info from curl
+            // delete old files
+            $files = glob($this->METEO_DIR.'/*'); //get all file names
+            foreach($files as $file) {
+                if(is_file($file)) {
+                    unlink($file);
+                } //delete file
+            }
+            // create checkfile
+            $chkfile = 'alerte_checkfile';
+            $time = time();
+            $backuptime = strtotime(date('Y-m-d H:i:s', $time)) + 3600; //
+            $fname = $this->METEO_DIR .'/'. $chkfile.'.'.$backuptime;
+            if(touch($fname)) {
+                $f = fopen($fname, 'w');
+                fputs($f, 3600);
+                fclose($f);
+            }
+            $url = $this->METEO_XML_DETAIL_URL;
+            $json = $this->get_curl($url);
+            if (!$json) {
+                $this->application->enqueueMessage('Erreur sur la récupération des informations météo', 'Erreur sur le module Alerte m&eacute;t&eacute;o');
+                return false;
+            }
+        }
         foreach ($json->product->periods[0]->timelaps->domain_ids as $line) {
             $type = $this->Filter($line);
             if (strcasecmp($type, "dep") == 0) {
