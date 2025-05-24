@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 3 or later; see LICENSE.txt</license>
 	<authorEmail>pascal.leconte@conseilgouz.com</authorEmail>
 	<authorUrl>www.conseilgouz.com</authorUrl>
-	<version>2.3.2</version>
+	<version>2.3.3</version>
 	<description>Affichage des alertes meteo</description>
 	<namespace path="src">ConseilGouz\Module\AlerteMeteo</namespace>
 	<scriptfile>script.php</scriptfile>
@@ -142,7 +142,7 @@
                     <option value="true">JYES</option>
                     <option value="false">JNO</option>
 				</field>
-				<field name="font-type" type="radio" class="btn-group"  label="Font type couleur" description="Sélectionner le type de couleur pour le font.<br>Utilisez 'variable' si votre template utilise bootstrap, sinon Fixe " default="pick">
+				<field name="font-type" type="radio" class="btn-group"  label="Font type couleur" description="Sélectionner le type de couleur pour le font.&lt;br&gt;Utilisez 'variable' si votre template utilise bootstrap, sinon Fixe." default="pick">
                 		<option value="pick">Fixe</option>
                         <option value="var">Variable</option>
 				</field>
