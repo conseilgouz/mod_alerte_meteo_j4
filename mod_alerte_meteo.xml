@@ -19,7 +19,7 @@
 		<folder>layouts</folder>
 		<filename>index.html</filename>
 	</files>
-	<media destination="mod_alterte_meteo" folder="media">
+	<media destination="mod_alerte_meteo" folder="media">
 		<folder>js</folder>
 		<filename>index.html</filename>
 	</media>
