@@ -2,6 +2,17 @@
 	<changelog>
 		<element>mod_alerte_meteo</element>
 		<type>Module</type>
+		<version>2.3.2</version>
+        <note>
+            <item>Update : 24/05/2025</item>
+        </note>
+        <change>
+            <item>Allow bootstrap variable color</item>
+        </change>
+	</changelog>
+	<changelog>
+		<element>mod_alerte_meteo</element>
+		<type>Module</type>
 		<version>2.3.1</version>
         <note>
             <item>Update : 02/07/2024</item>

@@ -2,12 +2,12 @@
 <extension type="module" version="4" client="site" method="upgrade">
 	<name>Alerte Meteo</name>
 	<author>ConseilGouz</author>
-	<creationDate>2024-07-02</creationDate>
-	<copyright>Copyright (C) 2024 ConseilGouz. All rights reserved.</copyright>
+	<creationDate>2025-05-24</creationDate>
+	<copyright>Copyright (C) 2025 ConseilGouz. All rights reserved.</copyright>
 	<license>GNU General Public License version 3 or later; see LICENSE.txt</license>
 	<authorEmail>pascal.leconte@conseilgouz.com</authorEmail>
 	<authorUrl>www.conseilgouz.com</authorUrl>
-	<version>2.3.1</version>
+	<version>2.3.2</version>
 	<description>Affichage des alertes meteo</description>
 	<namespace path="src">ConseilGouz\Module\AlerteMeteo</namespace>
 	<scriptfile>script.php</scriptfile>
@@ -16,11 +16,18 @@
 		<folder module="mod_alerte_meteo">services</folder>
 		<folder>tmpl</folder>
 		<folder>src</folder>
+		<folder>layouts</folder>
 		<filename>index.html</filename>
 	</files>
+	<media destination="mod_alterte_meteo" folder="media">
+		<folder>js</folder>
+		<filename>index.html</filename>
+	</media>
 	<config>
 		<fields name="params">
-			<fieldset name="basic" addfieldprefix="ConseilGouz\Module\AlerteMeteo\Site\Field">
+			<fieldset name="basic" 
+                addfieldprefix="ConseilGouz\Module\AlerteMeteo\Site\Field"
+                addruleprefix="ConseilGouz\Module\AlerteMeteo\Site\Rule">
 				<field name="version" type="version"  margintop="-3em" extension="mod_alerte_meteo"/>
 				<field  name="departement"  type="list"
 					label="Département" description="Sélection du département à afficher">
@@ -135,9 +142,15 @@
                     <option value="true">JYES</option>
                     <option value="false">JNO</option>
 				</field>
-				<field name="font-color" type="color" default="#000"
-				label="Couleur des caractères" description="Choisir la couelur des caractères">
+				<field name="font-type" type="radio" class="btn-group"  label="Font type couleur" description="Sélectionner le type de couleur pour le font.<br>Utilisez 'variable' si votre template utilise bootstrap, sinon Fixe " default="pick">
+                		<option value="pick">Fixe</option>
+                        <option value="var">Variable</option>
 				</field>
+				<field name="font-color" type="color" showon="font-type:pick"
+                    label="Couleur fixe" description="Sélectionner une couleur" default="#ffffcc"/>
+				<field name="font-var" type="cgvariable" showon="font-type:var"
+                    label="Font Variable" description="Entrez une variable de couleur définie dans votre template. Elle doit commencer par -- (par exemple --bs-body-color)" default="" 
+                    validate="variable"/>
                 <field name="token" type="text" 
                 default="eyJ4NXQiOiJZV0kxTTJZNE1qWTNOemsyTkRZeU5XTTRPV014TXpjek1UVmhNbU14T1RSa09ETXlOVEE0Tnc9PSIsImtpZCI6ImdhdGV3YXlfY2VydGlmaWNhdGVfYWxpYXMiLCJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJwYXNjYWwubGVjb250ZUBjYXJib24uc3VwZXIiLCJhcHBsaWNhdGlvbiI6eyJvd25lciI6InBhc2NhbC5sZWNvbnRlIiwidGllclF1b3RhVHlwZSI6bnVsbCwidGllciI6IlVubGltaXRlZCIsIm5hbWUiOiJBbGVydGVNZXRlb0o0IiwiaWQiOjE5NDMsInV1aWQiOiJkNmQ4NmVlOS01ZTBlLTQ0NDgtOGUxNC0yMDE4ODQwOGRiZGIifSwiaXNzIjoiaHR0cHM6XC9cL3BvcnRhaWwtYXBpLm1ldGVvZnJhbmNlLmZyOjQ0M1wvb2F1dGgyXC90b2tlbiIsInRpZXJJbmZvIjp7IjYwUmVxUGFyTWluIjp7InRpZXJRdW90YVR5cGUiOiJyZXF1ZXN0Q291bnQiLCJncmFwaFFMTWF4Q29tcGxleGl0eSI6MCwiZ3JhcGhRTE1heERlcHRoIjowLCJzdG9wT25RdW90YVJlYWNoIjp0cnVlLCJzcGlrZUFycmVzdExpbWl0IjowLCJzcGlrZUFycmVzdFVuaXQiOiJzZWMifX0sImtleXR5cGUiOiJQUk9EVUNUSU9OIiwic3Vic2NyaWJlZEFQSXMiOlt7InN1YnNjcmliZXJUZW5hbnREb21haW4iOiJjYXJib24uc3VwZXIiLCJuYW1lIjoiRG9ubmVlc1B1YmxpcXVlc1ZpZ2lsYW5jZSIsImNvbnRleHQiOiJcL3B1YmxpY1wvRFBWaWdpbGFuY2VcL3YxIiwicHVibGlzaGVyIjoiYWRtaW4iLCJ2ZXJzaW9uIjoidjEiLCJzdWJzY3JpcHRpb25UaWVyIjoiNjBSZXFQYXJNaW4ifV0sImV4cCI6MTc1MTM3NzgwMCwidG9rZW5fdHlwZSI6ImFwaUtleSIsImlhdCI6MTcxOTg0MTgwMCwianRpIjoiYzBjOTc4MjctZTFmMC00MGZmLTg3ZDEtNmU3ZGE2MTUwZGQxIn0=.O3liR7atXA8oCq9GKLqK2_QweL7cE6El8Y8Q9uzRH2TyamuJ1KPl5nV6xyvFsAvawYMio3e8AWFtQSjKycBe3S1EU_kLV_rZ53Ag35dJft0-YO9PUQKq6g3nIXfc6uxti1gccJMqzLEZD93RQvT-wOO3xgr3JqEQHIvOIP1mvm109_5271YpKCwveDFAkkDSuyM0kV6St-0qKggUTOsj-8Lld-xmgrzGUGEtGqZJBkJVL43usG04TTKiz42VLiHYSh2DC6B4Ui-eylV1JtKIpH6IlInJsJaFiM8lYvI9Dm9Xk8vKf56L9eGM6C2noy0_4vlw-XLP-ZA0YhRpAW4dRQ==" 
                 label="Token"
