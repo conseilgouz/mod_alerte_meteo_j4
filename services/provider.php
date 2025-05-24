@@ -2,7 +2,7 @@
 /**
 * Alerte Météo
 * Package			: Joomla 4.x / 5.x
-* copyright 		: Copyright (C) 2024 ConseilGouz. All rights reserved.
+* copyright 		: Copyright (C) 2025 ConseilGouz. All rights reserved.
 * license    		: https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL
 */
 
@@ -15,7 +15,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
- * The article news module service provider.
+ * The alterte meteo module service provider.
  *
  * @since  4.2.0
  */

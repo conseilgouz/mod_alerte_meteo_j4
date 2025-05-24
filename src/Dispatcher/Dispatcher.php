@@ -2,7 +2,7 @@
 /**
 * Alerte Météo
 * Package			: Joomla 4.x / 5.x
-* copyright 		: Copyright (C) 2024 ConseilGouz. All rights reserved.
+* copyright 		: Copyright (C) 2025 ConseilGouz. All rights reserved.
 * license    		: https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL
 */
 
@@ -15,7 +15,7 @@ use Joomla\CMS\Helper\HelperFactoryAwareTrait;
 \defined('_JEXEC') or die;
 
 /**
- * Dispatcher class for mod_cg_flip
+ * Dispatcher class for mod_alerte_meteo
  *
  * @since  4.2.0
  */
