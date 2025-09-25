@@ -1,5 +1,5 @@
 /**
- * CG Variable field for Joomla 4.x/5.x
+ * CG Variable field for Joomla 4.x/5.x/6.x
  *
  * @author     ConseilgGouz
  * @copyright (C) 2025 www.conseilgouz.com. All Rights Reserved.

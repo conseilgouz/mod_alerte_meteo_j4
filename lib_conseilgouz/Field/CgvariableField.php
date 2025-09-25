@@ -1,14 +1,15 @@
 <?php
 /**
-* Alerte Météo
-* Package			: Joomla 4.x/5.x
-* copyright 		: Copyright (C) 2025 ConseilGouz. All rights reserved.
-* license    		: https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL
-*/
+ * CG Variable field for Joomla 4.x/5.x/6.x
+ *
+ * @author     ConseilgGouz
+ * @copyright (C) 2025 www.conseilgouz.com. All Rights Reserved.
+ * @license    GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ */
 
-namespace ConseilGouz\Module\AlerteMeteo\Site\Field;
+namespace ConseilGouz\Library\Field;
 
-defined('JPATH_PLATFORM') or die;
+defined('_JEXEC') or die;
 use Joomla\CMS\Form\Field\TextField;
 
 class CgvariableField extends TextField
@@ -30,15 +31,11 @@ class CgvariableField extends TextField
      */
 
     protected $unit = "";
-    /* module's information */
-    public $_ext = "mod";
-    public $_type = "cg";
-    public $_name = "memo";
 
     protected function getLayoutPaths()
     {
         $paths = parent::getLayoutPaths();
-        $paths[] = dirname(__DIR__).'/../layouts';
+        $paths[] = JPATH_SITE.'/libraries/conseilgouz/layouts';
         return $paths;
 
     }

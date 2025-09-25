@@ -2,12 +2,12 @@
 <extension type="module" version="4" client="site" method="upgrade">
 	<name>Alerte Meteo</name>
 	<author>ConseilGouz</author>
-	<creationDate>2025-05-24</creationDate>
+	<creationDate>2025-09-25</creationDate>
 	<copyright>Copyright (C) 2025 ConseilGouz. All rights reserved.</copyright>
 	<license>GNU General Public License version 3 or later; see LICENSE.txt</license>
 	<authorEmail>pascal.leconte@conseilgouz.com</authorEmail>
 	<authorUrl>www.conseilgouz.com</authorUrl>
-	<version>2.3.3</version>
+	<version>2.4.0</version>
 	<description>Affichage des alertes meteo</description>
 	<namespace path="src">ConseilGouz\Module\AlerteMeteo</namespace>
 	<scriptfile>script.php</scriptfile>
@@ -26,7 +26,7 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic" 
-                addfieldprefix="ConseilGouz\Module\AlerteMeteo\Site\Field"
+                addfieldprefix="ConseilGouz\Library\Field"
                 addruleprefix="ConseilGouz\Module\AlerteMeteo\Site\Rule">
 				<field name="version" type="version"  margintop="-3em" extension="mod_alerte_meteo"/>
 				<field  name="departement"  type="list"

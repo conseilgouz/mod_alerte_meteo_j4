@@ -1,21 +1,20 @@
 <?php
 /**
-* Alerte Météo
-* Package			: Joomla 4.x/5.x
-* copyright 		: Copyright (C) 2025 ConseilGouz. All rights reserved.
-* license    		: https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL
-*/
+ * CG Memo Module for Joomla 4.x/5.x/6.x
+ *
+ * @author     ConseilgGouz
+ * @copyright (C) 2025 www.conseilgouz.com. All Rights Reserved.
+ * @license    GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ */
 
 defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 
 extract($displayData);
 
-$extdir = $field->_ext.'_'.$field->_type.'_'.$field->_name;
-
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-$wa->registerAndUseScript('cgvariable', 'media/'.$extdir.'/js/cgvariable.js');
+$wa->registerAndUseScript('cgvariable', 'media/conseilgouz/fields/js/cgvariable.js');
 
 /**
  * Layout variables
