@@ -88,7 +88,7 @@ if  (($aff_minicarte == 'true') || (($aff_minicarte == 'alert') && (!empty($aler
     $url = $meteo->getImage();
     ?>
 <p class="alerte_meteo_minicarte">
-   <a href="//vigilance.meteofrance.com/" target="_blank" rel="noopener noreferrer"><img src = "<?php echo Uri::root().$url;?>" alt="Mini carte" style="display: block;margin-left: auto;margin-right: auto;max-width:<?php echo $params->get('max-width', '8');?>em"></a>
+   <a href="//vigilance.meteofrance.fr/fr" target="_blank" rel="noopener noreferrer"><img src = "<?php echo Uri::root().$url;?>" alt="Mini carte" style="display: block;margin-left: auto;margin-right: auto;max-width:<?php echo $params->get('max-width', '8');?>em"></a>
 </p>
 <?php } ?>
 <?php if (!empty($alerte)) { ?>

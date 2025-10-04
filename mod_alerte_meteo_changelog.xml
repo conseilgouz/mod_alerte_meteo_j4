@@ -2,6 +2,21 @@
 	<changelog>
 		<element>mod_alerte_meteo</element>
 		<type>Module</type>
+		<version>2.4.1</version>
+        <note>
+            <item>Update : 25/09/2025</item>
+        </note>
+        <fix>
+            <item>Mini carte : change vigilance.meteofrance.com en vigilance.meteofrance.fr</item>
+            <item>Script instaltation : gestion du cache</item>
+        </fix>
+        <change>
+            <item>Use ConseilGouz library</item>
+        </change>
+	</changelog>
+	<changelog>
+		<element>mod_alerte_meteo</element>
+		<type>Module</type>
 		<version>2.4.0</version>
         <note>
             <item>Update : 25/09/2025</item>

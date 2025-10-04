@@ -69,12 +69,6 @@ class mod_alerte_meteoInstallerScript
             JPATH_SITE . '/media/mod_'.$this->extname.'/js/cgvariable.js',
         ]);
 
-		switch ($type) {
-            case 'install': $message = Text::_('ISO_POSTFLIGHT_INSTALLED'); break;
-            case 'uninstall': $message = Text::_('ISO_POSTFLIGHT_UNINSTALLED'); break;
-            case 'update': $message = Text::_('ISO_POSTFLIGHT_UPDATED'); break;
-            case 'discover_install': $message = Text::_('ISO_POSTFLIGHT_DISC_INSTALLED'); break;
-        }
 		return true;
     }
 	private function postinstall_cleanup() {
@@ -203,7 +197,9 @@ class mod_alerte_meteoInstallerScript
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'));
 		$db->setQuery($query);
 		$db->execute();
-		Factory::getCache()->clean('_system');
+		$cachecontroller = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController(s);
+		$cachecontroller->clean('_system');
+
 	}
     public function delete($files = [])
     {
