@@ -16,13 +16,8 @@
 		<folder module="mod_alerte_meteo">services</folder>
 		<folder>tmpl</folder>
 		<folder>src</folder>
-		<folder>layouts</folder>
 		<filename>index.html</filename>
 	</files>
-	<media destination="mod_alerte_meteo" folder="media">
-		<folder>js</folder>
-		<filename>index.html</filename>
-	</media>
 	<config>
 		<fields name="params">
 			<fieldset name="basic" 
