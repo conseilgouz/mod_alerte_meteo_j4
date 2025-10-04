@@ -8,7 +8,7 @@
         </note>
         <fix>
             <item>Mini carte : change vigilance.meteofrance.com en vigilance.meteofrance.fr</item>
-            <item>Script instaltation : gestion du cache</item>
+            <item>Script installation : gestion du cache</item>
         </fix>
         <change>
             <item>Use ConseilGouz library</item>
